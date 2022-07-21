@@ -1,5 +1,6 @@
 // Modules
 var Type = require('type-of-is')
+var _ = require('lodash')
 
 // Constants
 var DRAFT = 'http://json-schema.org/draft-04/schema#'
@@ -21,6 +22,10 @@ function getPropertyType(value) {
   if (type === 'function') return 'string'
 
   return type
+}
+
+function checkForIntegerAndNumber(type) {
+  return !!(type.includes('number') && type.includes('integer'))
 }
 
 function getUniqueKeys(a, b, c) {
@@ -70,6 +75,11 @@ function processArray(array, output, nested) {
     var elementType = getPropertyType(array[arrIndex])
     var elementFormat = getPropertyFormat(array[arrIndex])
 
+    if (checkForIntegerAndNumber([type, elementType])) {
+      type = 'number'
+      format = elementFormat
+      continue
+    }
     if (type && elementType !== type) {
       output.items.oneOf = []
       oneOf = true
@@ -88,7 +98,7 @@ function processArray(array, output, nested) {
     }
   } else if (oneOf && type !== 'object') {
     output.items = {
-      oneOf: [{ type: type }],
+      // oneOf: [{ type: type }],
       required: output.items.required
     }
   }
@@ -122,7 +132,7 @@ function processArray(array, output, nested) {
           tempObj.type = 'object'
           arrayItem = tempObj
         }
-        output.items.oneOf.push(arrayItem)
+        // output.items.oneOf.push(arrayItem)
       } else {
         if (output.items.type !== 'object') {
           continue;
@@ -170,6 +180,9 @@ function processObject(object, output, nested) {
       // type, if not, we add it to the array and continue
       if (hasTypeArray && entry.type.indexOf(type) < 0) {
         entry.type.push(type)
+        if (checkForIntegerAndNumber(entry.type)) {
+          _.pull(entry.type, 'integer')
+        }
       }
 
       // When multiple fields of differing types occur,
@@ -177,6 +190,9 @@ function processObject(object, output, nested) {
       // primitive types the field allows in array format.
       if (!hasTypeArray && entry.type !== type) {
         entry.type = [entry.type, type]
+        if (checkForIntegerAndNumber(entry.type)) {
+          entry.type = 'number'
+        }
       }
 
       continue

@@ -48,7 +48,7 @@ describe('JSON', function () {
     })
 
     it('.items.properties.dimensions.properties.length should be of type [integer, number]', function () {
-      schema.items.properties.dimensions.properties.length.type.should.eql(['integer', 'number'])
+      schema.items.properties.dimensions.properties.length.type.should.eql('number')
     })
   })
 
