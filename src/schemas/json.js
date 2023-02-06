@@ -1,6 +1,6 @@
 // Modules
 var Type = require('type-of-is')
-var _ = require('lodash')
+var pull = require('lodash/pull')
 
 // Constants
 var DRAFT = 'http://json-schema.org/draft-04/schema#'
@@ -181,7 +181,7 @@ function processObject(object, output, nested) {
       if (hasTypeArray && entry.type.indexOf(type) < 0) {
         entry.type.push(type)
         if (checkForIntegerAndNumber(entry.type)) {
-          _.pull(entry.type, 'integer')
+          pull(entry.type, 'integer')
         }
       }
 
