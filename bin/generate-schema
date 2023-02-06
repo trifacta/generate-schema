@@ -28,20 +28,12 @@ cli.option('-j, --json-schema', 'JSON Schema output', function () {
   mode = 'json' 
 })
 
-cli.option('-m, --mongoose', 'Mongoose Schema output', function () {
-  mode = 'mongoose'
-})
-
 cli.option('-s, --mysql', 'MySQL Table Schema output', function () {
   mode = 'mysql'
 })
 
 cli.option('-b, --big-query', 'Google BigQuery Schema output', function () {
   mode = 'bigquery'
-})
-
-cli.option('-c, --clickhouse', 'ClickHouse Table Schema output', function () {
-  mode = 'clickhouse'
 })
 
 cli.action(function (filename) {
