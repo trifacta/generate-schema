@@ -1,5 +1,5 @@
 {
-  "name": "@trifacta/generate-schema",
+  "name": "generate-schema",
   "version": "2.6.2",
   "author": "Nijiko Yonskai <nijikokun@gmail.com>",
   "description": "Effortlessly convert your JSON Object to JSON Schema, Mongoose Schema, or a Generic template for quick documentation / upstart.",
